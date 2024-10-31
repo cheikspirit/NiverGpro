@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aniversários</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.5/babel.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f3f4f6;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #1f2937;
+            margin-bottom: 20px;
+        }
+        select {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 20px;
+            border: 1px solid #d1d5db;
+            border-radius: 4px;
+        }
+        ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        li {
+            padding: 12px 0;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        .nome {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+    <script type="text/babel">
+        const pessoas = [
+            { nome: 'Rodrigo Dias', dataDeAniversario: new Date('2024-01-03') },
+            { nome: 'Matheus', dataDeAniversario: new Date('2024-01-10') },
+            { nome: 'André', dataDeAniversario: new Date('2024-01-15') },
+            { nome: 'Giovana', dataDeAniversario: new Date('2024-01-20') },
+            { nome: 'Élcia', dataDeAniversario: new Date('2024-02-09') },
+            { nome: 'Lucivana', dataDeAniversario: new Date('2024-02-18') },
+            { nome: 'Luiz Sérgio', dataDeAniversario: new Date('2024-03-30') },
+            { nome: 'Leila', dataDeAniversario: new Date('2024-04-01') },
+            { nome: 'Douglas', dataDeAniversario: new Date('2024-04-09') },
+            { nome: 'Gisele', dataDeAniversario: new Date('2024-04-18') },
+            { nome: 'Elisângela', dataDeAniversario: new Date('2024-05-06') },
+            { nome: 'João Pedro', dataDeAniversario: new Date('2024-06-18') },
+            { nome: 'William', dataDeAniversario: new Date('2024-07-16') },
+            { nome: 'Ribiana', dataDeAniversario: new Date('2024-08-05') },
+            { nome: 'Vera', dataDeAniversario: new Date('2024-08-06') },
+            { nome: 'Lorena', dataDeAniversario: new Date('2024-08-11') },
+            { nome: 'Cleiber', dataDeAniversario: new Date('2024-08-18') },
+            { nome: 'Fernanda', dataDeAniversario: new Date('2024-09-15') },
+            { nome: 'Marcos', dataDeAniversario: new Date('2024-09-19') },
+            { nome: 'Lívia', dataDeAniversario: new Date('2024-10-07') },
+            { nome: 'Renato', dataDeAniversario: new Date('2024-10-19') },
+            { nome: 'Amanda', dataDeAniversario: new Date('2024-10-23') },
+            { nome: 'Diego', dataDeAniversario: new Date('2024-10-26') },
+            { nome: 'Débora', dataDeAniversario: new Date('2024-11-14') },
+            { nome: 'Rodrigo Porto', dataDeAniversario: new Date('2024-11-26') },
+            { nome: 'Fabrícia', dataDeAniversario: new Date('2024-12-02') },
+            { nome: 'Susana', dataDeAniversario: new Date('2024-12-27') },
+        ];
+
+        function App() {
+            const [mesSelecionado, setMesSelecionado] = React.useState(new Date().getMonth() + 1);
+            const [aniversariantes, setAniversariantes] = React.useState([]);
+
+            const meses = [
+                'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
+                'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'
+            ];
+
+            React.useEffect(() => {
+                handleMudancaMes(mesSelecionado);
+            }, []);
+
+            const handleMudancaMes = (mes) => {
+                setMesSelecionado(mes);
+                const aniversariantesDoMes = pessoas.filter(
+                    (pessoa) => pessoa.dataDeAniversario.getMonth() + 1 === mes
+                ).sort((a, b) => a.dataDeAniversario.getDate() - b.dataDeAniversario.getDate());
+                setAniversariantes(aniversariantesDoMes);
+            };
+
+            return (
+                <div className="container">
+                    <h1>Aniversários</h1>
+                    <select
+                        value={mesSelecionado}
+                        onChange={(e) => handleMudancaMes(Number(e.target.value))}
+                    >
+                        {meses.map((mes, indice) => (
+                            <option key={indice} value={indice + 1}>
+                                {mes}
+                            </option>
+                        ))}
+                    </select>
+                    <ul>
+                        {aniversariantes.map((aniversariante, indice) => (
+                            <li key={indice}>
+                                <span className="nome">{aniversariante.nome}</span>
+                                {' - '}
+                                {aniversariante.dataDeAniversario.getDate()} de {meses[aniversariante.dataDeAniversario.getMonth()]}
+                            </li>
+                        ))}
+                    </ul>
+                </div>
+            );
+        }
+
+        ReactDOM.render(<App />, document.getElementById('root'));
+    </script>
+</body>
+</html>
